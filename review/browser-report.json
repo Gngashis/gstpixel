@@ -1,0 +1,367 @@
+{
+  "date": "2026-09-14T16:35:02.692Z",
+  "origin": "http://127.0.0.1:3000",
+  "routes": [
+    {
+      "route": "/",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 27,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services/gst",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/tools",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/tools/gst-calculator",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 27,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 22,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services/fssai",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services/web-development",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services/app-development",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services/digital-marketing",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services/business-support",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/start-business",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    }
+  ],
+  "interactions": [
+    "GST exclusive/inclusive/split/IGST/invalid-rate/reset/keyboard submit passed",
+    "Tools categories/search/empty state/reset passed",
+    "Mobile menu open/close/Escape/focus return/route close passed",
+    "Native consultation dialog focus/trap/Escape passed",
+    "Studio concept switch and FAQ disclosure passed",
+    "System reduced-motion disables nonessential CSS animation"
+  ],
+  "errors": []
+}

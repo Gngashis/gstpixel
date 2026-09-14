@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {buildLaunchPlan, type LaunchAnswers} from '../src/domain/launch-plan';
+const base:LaunchAnswers={activity:'other',stage:'starting',location:'Pune',founders:'solo',digitalNeeds:[]};
+const titles=(a:Partial<LaunchAnswers>)=>buildLaunchPlan({...base,...a}).items.map(item=>item.title);
+test('food adds FSSAI review and GST review',()=>{const t=titles({activity:'food'});assert.ok(t.includes('Review GST applicability'));assert.ok(t.includes('Review food business requirements'))});
+test('non-food does not add FSSAI review',()=>assert.equal(titles({activity:'retail'}).some(t=>t.includes('FSSAI')),false));
+test('multiple founders add structure review',()=>assert.ok(titles({founders:'multiple'}).includes('Review the ownership structure')));
+test('stage changes the final practical step',()=>assert.ok(titles({stage:'idea'}).includes('Shape the first operating brief')));
+test('digital choices create only their relevant steps',()=>{const t=titles({digitalNeeds:['website','marketing']});assert.ok(t.includes('Scope a website'));assert.ok(t.includes('Plan digital visibility'));assert.equal(t.includes('Scope an app'),false)});
+test('plan contains no invented prices or definitive requirements',()=>{const p=buildLaunchPlan({...base,activity:'food',founders:'multiple'});assert.match(p.note,/Costs and timelines: discuss after the scope review/);assert.ok(p.items.every(i=>!(/₹|\b\d+\s*(days?|weeks?|months?)/i.test(i.detail))))});
