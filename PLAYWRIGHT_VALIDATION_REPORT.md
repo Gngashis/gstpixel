@@ -1,10 +1,10 @@
 # GSTPIXEL Playwright validation report
 
-Validated 14 September 2026 against the current production build using the installed Playwright, Chromium and axe-core setup. No application code was changed during this pass.
+Validated 15 September 2026 against the current integrated production build using the installed Playwright, Chromium and axe-core setup.
 
 ## Result
 
-The current compliance-first production build is safe to continue from for the existing route tree. All implemented routes returned HTTP 200, rendered one main heading, passed exact-width overflow checks, and passed the existing interaction/accessibility checks. One route requested for validation is not implemented: `/digital-studio` returns HTTP 404. The current Digital Studio-related homepage interaction remains covered by the existing browser harness, but there is no standalone Digital Studio route in the current source/build.
+The current compliance-first production build passed the full regression sweep. All 24 tested routes returned HTTP 200, rendered one main heading, passed exact-width overflow checks, and completed the applicable interaction and accessibility checks. The production build generated 26 static pages.
 
 ## Routes tested
 
@@ -28,15 +28,18 @@ Successful routes:
 - `/services/digital-marketing`
 - `/tools`
 - `/tools/gst-calculator`
+- `/tools/profit-margin`
+- `/tools/break-even`
 - `/start-business`
+- `/digital-studio`
+- `/about`
+- `/contact`
 
-Not implemented:
-
-- `/digital-studio` — HTTP 404. This was reported only; no route was added during validation.
+The browser regression covered 24 routes in total. The generated route count also includes framework-generated pages outside the explicit browser route list.
 
 ## Viewport results
 
-All successful routes were checked at exact viewport sizes:
+All 24 browser-tested routes were checked at exact viewport sizes, producing 96 width checks:
 
 | Viewport | Result |
 |---|---|
@@ -47,24 +50,25 @@ All successful routes were checked at exact viewport sizes:
 
 ## Accessibility and keyboard checks
 
-- Existing expanded Playwright harness: 11-route baseline, 44 viewport checks, 0 axe violations.
-- Fresh production-server sweep: 0 axe violations on the homepage.
+- Full Playwright regression: 24 routes, 96 viewport checks and 0 axe violations.
 - Homepage mobile navigation opens, closes with Escape, returns focus to the menu control, and routes correctly.
 - Consultation dialog focus containment and Escape close passed.
 - GST calculator keyboard submission, invalid-rate focus, reset focus and result behavior passed.
+- Profit & Margin calculator arithmetic, margin/markup display and rounding behavior passed direct interaction validation.
+- Break-even calculator whole-unit rounding and contribution calculation passed direct interaction validation.
+- Trade Licence and Udyam/MSME workflows passed Back, resume, refresh persistence, reset, dedicated localStorage and final CTA checks.
+- GST registration, GST return filing, FSSAI, company/formation and Business Support progressive consultation surfaces remained covered by the integrated regression.
+- The Start Business planner's duplicate option lacked an accessible label during the sweep; it was corrected and passed the follow-up check.
 - Reduced-motion context (`prefers-reduced-motion: reduce`) disabled nonessential CSS animation in the existing harness.
 
 ## Console errors
 
-No console or page errors were found on valid implemented routes.
-
-The first sweep was pointed at an already-running stale development server. It reported 404s for the newly added compliance routes because that process predated the current build. A fresh production server on an isolated port returned HTTP 200 for every implemented compliance route. The only remaining 404 console entries were the reproducible missing `/digital-studio` route.
+No console or page errors were found across the 24-route production regression.
 
 ## Broken links
 
-- No broken internal links were found in the services overview crawl (21 unique internal links checked).
-- Related service links and catalog routes resolve in the production build.
-- `/digital-studio` is a missing route rather than a broken link discovered from the current services overview.
+- No broken internal links were found in the validated route surfaces.
+- Related service links, catalog routes, all three calculator routes, Digital Studio, About and Contact resolve in the production build.
 
 ## Screenshots produced
 
@@ -78,17 +82,17 @@ The first sweep was pointed at an already-running stale development server. It r
 
 Existing baseline screenshots in `review/` were preserved.
 
-## Exact bugs / findings
+## Exact finding resolved
 
-1. **Missing Digital Studio route:** `/digital-studio` returns 404. The source route inventory contains no `src/app/digital-studio/page.tsx`; only the existing homepage/studio-preview interaction is present. No code change was made because this pass was limited to validation and the user explicitly prohibited redesign or unrelated implementation.
-2. **Stale dev-server artifact:** the pre-existing process on port 3000 did not reflect the current compliance route build. This was resolved for validation by starting the production server on port 3001; it is not a source defect.
+- **Start Business accessible label:** a duplicate planner option was found without an accessible label. The option was corrected and the follow-up accessibility check passed.
 
 ## Validation commands
 
-- `pnpm test:browser` — passed: 11 routes, 44 exact-width checks, zero accessibility violations, no errors.
-- Custom production Playwright sweep — passed for all 19 implemented routes; zero overflow findings, zero valid-route console errors, zero axe findings.
-- `pnpm build` — passed; Next.js generated 21 static routes.
+- `pnpm typecheck` — passed.
+- `pnpm test` — passed: 75/75 tests.
+- Production Playwright regression — passed for 24 routes and 96 exact-width checks; zero overflow findings, zero console/page errors and zero axe violations.
+- `pnpm build` — passed; Next.js generated 26 static pages.
 
 ## Recommendation
 
-Continue from the current production build for the compliance-first route work. Track `/digital-studio` as the only reproducible route gap before claiming the full requested route inventory is complete; do not infer a standalone Digital Studio page from the homepage preview.
+Continue from the current production build. Preserve the progressive consultation safety boundaries and repeat the full regression after future shared-navigation, backend or client-workspace changes.

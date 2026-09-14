@@ -14,6 +14,19 @@ export type RegistrationBrief = {
   reviewItems: string[];
 };
 
+export type GstReturnFilingAnswers = {
+  filingPeriod?: string;
+  frequency?: string;
+  businessActivity?: string;
+  salesType?: string;
+  purchaseRecords?: string;
+  salesRecords?: string;
+  nilReturnExpectation?: string;
+  clarification?: string;
+};
+
+export type GstReturnFilingBrief = RegistrationBrief;
+
 export function buildRegistrationBrief(answers: RegistrationAnswers): RegistrationBrief {
   const fields = [
     ['Primary business activity', answers.activity],
@@ -37,6 +50,38 @@ export function buildRegistrationBrief(answers: RegistrationAnswers): Registrati
       'Thresholds, notifications, exemptions and compulsory-registration exceptions may affect the requirement.',
       'A professional review is required before any filing or conclusion.',
       'This brief does not submit an application or guarantee an outcome.',
+    ],
+  };
+}
+
+export function buildGstReturnFilingBrief(answers: GstReturnFilingAnswers): GstReturnFilingBrief {
+  const fields = [
+    ['Filing period', answers.filingPeriod],
+    ['User-stated filing frequency', answers.frequency],
+    ['Primary business activity', answers.businessActivity],
+    ['Main sales context', answers.salesType],
+    ['Purchase-record readiness', answers.purchaseRecords],
+    ['Sales-record readiness', answers.salesRecords],
+    ['User-stated Nil return expectation', answers.nilReturnExpectation],
+    ['Clarification requested', answers.clarification],
+  ] as const;
+  const normalized = fields.map(([label, value]) => ({ label, value: value || 'Not answered' }));
+  const uncertain = normalized
+    .filter(({ value }) => /not sure|not answered|need help|needs review/i.test(value))
+    .map(({ label }) => label);
+
+  return {
+    answers: normalized,
+    uncertain,
+    nextSteps: [
+      'Review the filing period and the sales and purchase records described.',
+      'Verify the applicable return, filing position and current requirements before any filing action.',
+      'Discuss missing or uncertain records during professional review.',
+    ],
+    reviewItems: [
+      'A user-stated Nil return expectation is recorded as context and is not a filing conclusion.',
+      'Eligibility, liability, deadlines, penalties and tax treatment require professional or regulatory review.',
+      'This brief does not calculate tax, submit a return or confirm government acceptance.',
     ],
   };
 }
