@@ -51,13 +51,13 @@ const makeService = (
   ...service,
   reviewStatus: 'needs-review' as const,
   included: ['Discuss your business context and intended service outcome', 'Organize the information to review for your circumstances', 'Prepare questions for a focused consultation'],
-  exclusions: ['Definitive legal, tax or eligibility conclusions without verified facts', 'Guaranteed approval, registration, processing time or authority outcome', 'Submitting or storing identity documents in this prototype'],
+  exclusions: ['Definitive legal, tax or eligibility conclusions without verified facts', 'Guaranteed approval, registration, processing time or authority outcome', 'Submitting or storing identity documents through this site'],
   steps: [
     { title: 'Describe the context', copy: 'Share the activity, location and current registration position in plain language.' },
     { title: 'Review the questions', copy: 'Separate known information from items that need current official or professional verification.' },
     { title: 'Prepare the brief', copy: 'Keep the relevant information ready for your own review or an agreed next step.' },
   ],
-  prepare: 'Bring a short activity description, operating location and the specific question you want to discuss. Do not send identity documents through this prototype.',
+  prepare: 'Bring a short activity description, operating location and the specific question you want to discuss. Do not send identity documents through this site.',
 });
 
 export const services: Service[] = [

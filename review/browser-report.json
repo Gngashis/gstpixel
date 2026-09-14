@@ -1,6 +1,6 @@
 {
-  "date": "2026-09-14T23:04:13.516Z",
-  "origin": "http://127.0.0.1:3000",
+  "date": "2026-09-14T23:20:54.369Z",
+  "origin": "http://127.0.0.1:3012",
   "routes": [
     {
       "route": "/",
@@ -808,7 +808,7 @@
     "GST exclusive/inclusive/split/IGST/invalid-rate/reset/keyboard submit passed",
     "Profit/margin/markup calculation and rounding passed",
     "Break-even whole-unit and contribution calculation passed",
-    "Tools categories/search/empty state/reset passed",
+    "Tools launch planner link/status and categories/search/empty state/reset passed",
     "GST registration workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
     "GST return filing workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
     "FSSAI workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
@@ -820,7 +820,7 @@
     "Company registration workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
     "Business support workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
     "Mobile menu open/close/Escape/focus return/route close passed",
-    "Native consultation dialog focus/trap/Escape passed",
+    "Consultation WhatsApp/call/email/contact links and native dialog focus/trap/Escape passed",
     "Studio concept switch and FAQ disclosure passed",
     "System reduced-motion disables nonessential CSS animation"
   ],
