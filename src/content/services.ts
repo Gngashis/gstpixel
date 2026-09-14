@@ -11,6 +11,10 @@ export const serviceCategories = [
 
 export type ServiceCategory = (typeof serviceCategories)[number];
 
+export const serviceReviewStatuses = ['needs-review', 'verified'] as const;
+
+export type ServiceReviewStatus = (typeof serviceReviewStatuses)[number];
+
 export type Service = {
   slug: string;
   title: string;
@@ -29,10 +33,10 @@ export type Service = {
   exclusions: string[];
   steps: { title: string; copy: string }[];
   prepare: string;
-  resource?: { label: string; copy: string; href: string; action: string };
   consultationTopic: string;
   href?: string;
-  action?: string;
+  reviewStatus: ServiceReviewStatus;
+  reviewNotes?: string;
 };
 
 const sharedDocuments = [
@@ -45,6 +49,7 @@ const makeService = (
   service: Pick<Service, 'slug' | 'title' | 'shortTitle' | 'category' | 'kicker' | 'proposition' | 'summary' | 'customerIntent' | 'informationToCollect' | 'documentChecklist' | 'nextStep' | 'relatedSlugs' | 'icon' | 'consultationTopic'>,
 ): Service => ({
   ...service,
+  reviewStatus: 'needs-review' as const,
   included: ['Discuss your business context and intended service outcome', 'Organize the information to review for your circumstances', 'Prepare questions for a focused consultation'],
   exclusions: ['Definitive legal, tax or eligibility conclusions without verified facts', 'Guaranteed approval, registration, processing time or authority outcome', 'Submitting or storing identity documents in this prototype'],
   steps: [
@@ -181,6 +186,7 @@ export const gstService = {
   documentChecklist: sharedDocuments,
   nextStep: 'Open the existing GST service page for the current overview.',
   relatedSlugs: ['gst-registration', 'gst-return-filing'], icon: 'document' as const, href: '/services/gst',
+  reviewStatus: 'needs-review' as const,
 };
 
 export const allServices = [...services, gstService] as const;

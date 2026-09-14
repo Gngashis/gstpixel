@@ -12,7 +12,7 @@ type Pathway = {
   steps: string[];
   href: string;
   action: string;
-  secondary?: { href: string; label: string };
+  secondary?: { href: string; label: string }[];
 };
 
 const pathways: Pathway[] = [
@@ -24,19 +24,23 @@ const pathways: Pathway[] = [
   },
   {
     label: 'Get compliant', stage: 'COMPLY', title: 'Find a clearer path through compliance.',
-    copy: 'Understand the GST and business obligations that apply to you, then move ahead with confidence.',
-    steps: ['Identify the registrations you need.', 'Prepare the right information and documents.', 'Work through the next compliance step.'],
-    href: '/services/gst', action: 'Explore GST support', secondary: { href: '/services/fssai', label: 'Explore FSSAI support' },
+    copy: 'Organize the registration, licence or recurring compliance question closest to your business today.',
+    steps: ['Identify the service question.', 'Prepare the right information to discuss.', 'Choose a considered next step.'],
+    href: '/services/gst-registration', action: 'Explore GST registration', secondary: [
+      { href: '/services/gst-return-filing', label: 'GST return filing' },
+      { href: '/services/fssai', label: 'FSSAI / food licence' },
+      { href: '/services/trade-license', label: 'Trade licence' },
+    ],
   },
   {
     label: 'Build online', stage: 'BUILD', title: 'Create a digital home with purpose.',
-    copy: 'Shape a website or app around what your customers need to understand and do next.',
+    copy: 'When your foundations are ready, shape a website or app around what your customers need to do next.',
     steps: ['Define the audience and outcome.', 'Shape the right digital scope.', 'Build an experience that feels like yours.'],
-    href: '/services/web-development', action: 'Explore web development', secondary: { href: '/services/app-development', label: 'Explore app development' },
+    href: '/services/web-development', action: 'Explore web development', secondary: [{ href: '/services/app-development', label: 'Explore app development' }],
   },
   {
     label: 'Grow my business', stage: 'GROW', title: 'Help the right people find you.',
-    copy: 'Connect your business with thoughtful digital marketing built around a clear, useful message.',
+    copy: 'Connect a clear, established offer with thoughtful digital marketing built around a useful message.',
     steps: ['Understand your audience and goals.', 'Choose the channels that fit.', 'Build momentum with consistent work.'],
     href: '/services/digital-marketing', action: 'Explore digital marketing',
   },
@@ -68,7 +72,7 @@ export function IntentPathway() {
     <section className={s.section} id="pathways" aria-labelledby="pathways-title">
       <div className="wrap">
         <div className={s.intro}>
-          <div className="eyebrow">A clear next step</div>
+        <div className="eyebrow">03 / A clear next step</div>
           <h2 id="pathways-title">What do you want to <em>achieve?</em></h2>
         </div>
         <div className={s.pathway}>
@@ -102,7 +106,7 @@ export function IntentPathway() {
               </ol>
               <div className={s.actions}>
                 <ButtonLink href={item.href} primary>{item.action}</ButtonLink>
-                {item.secondary && <TextLink href={item.secondary.href}>{item.secondary.label}</TextLink>}
+                {item.secondary?.map((link) => <TextLink key={link.href} href={link.href}>{link.label}</TextLink>)}
               </div>
             </div>)}
           </div>

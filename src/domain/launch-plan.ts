@@ -1,4 +1,4 @@
-export const activities = ['food', 'retail', 'professional-services', 'digital', 'other'] as const;
+export const activities = ['food', 'retail', 'professional-services', 'digital', 'other', 'not-sure'] as const;
 export const stages = ['idea', 'starting', 'operating'] as const;
 export const founderChoices = ['solo', 'multiple', 'unsure'] as const;
 export const digitalChoices = ['website', 'app', 'marketing', 'not-sure'] as const;
