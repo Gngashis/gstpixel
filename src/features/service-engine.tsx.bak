@@ -1,0 +1,141 @@
+'use client';
+
+import Link from 'next/link';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { ConsultButton } from '@/components/interaction';
+import { Arrow, ButtonLink, Icon } from '@/components/ui';
+import s from './service-engine.module.css';
+import { buildRegistrationBrief, type RegistrationAnswers, type RegistrationBrief } from './service-engine-logic';
+import { buildFormationBrief, type FormationAnswers, type FormationBrief } from './company-registration-logic';
+import { buildFssaiBrief, type FssaiAnswers, type FssaiBrief } from './fssai-logic';
+
+type Question = {
+  key: string;
+  label: string;
+  prompt: string;
+  help?: string;
+  options: string[];
+};
+
+const questions: Question[] = [
+  { key: 'activity', label: 'Business activity', prompt: 'What is your primary business activity?', options: ['Selling goods', 'Providing services', 'Both', "I'm not sure"] },
+  { key: 'supply', label: 'Customer supply', prompt: 'Where does the business supply customers?', options: ['Primarily within one state', 'Across state borders', 'International customers', 'Multiple / not sure'] },
+  { key: 'turnover', label: 'Turnover range', prompt: 'What is the approximate annual turnover range?', help: 'A factual range only. Turnover alone does not determine a GST requirement.', options: ['Not started / no turnover yet', 'Below ₹20 lakh', '₹20–50 lakh', 'Above ₹50 lakh', "I'm not sure"] },
+  { key: 'structure', label: 'Business structure', prompt: 'What is the current business structure?', options: ['Proprietorship', 'Partnership', 'LLP', 'Company', 'Not registered / not sure'] },
+  { key: 'clarification', label: 'Clarification', prompt: 'Is there anything else you want a professional to clarify?', help: 'Optional. Choosing “I’m not sure” keeps the brief moving.', options: ['I want help understanding the applicable requirement', 'I have a specific GST question', 'I’m not sure yet', 'Nothing else for now'] },
+];
+
+const storageKey = 'gstpixel-gst-registration-brief-v1';
+const formationQuestions: Question[] = [
+  { key: 'founders', label: 'Founders / owners', prompt: 'How many founders or owners are involved?', options: ['Just me', 'Two or more', "I'm not sure"] },
+  { key: 'activity', label: 'Business activity', prompt: 'What will the business do?', options: ['Selling goods', 'Providing services', 'Both', "I'm not sure"] },
+  { key: 'investment', label: 'External investment', prompt: 'May external investment be sought?', help: 'This records your current intention only; it does not recommend a structure.', options: ['Yes', 'No', 'Possibly', "I'm not sure"] },
+  { key: 'name', label: 'Proposed name', prompt: 'Do you have a proposed business name?', help: 'A name is noted for discussion only. Availability is never assumed.', options: ['I have a name to discuss', 'No name yet', "I'm not sure"] },
+  { key: 'location', label: 'Operating location', prompt: 'Where will the business operate?', options: ['One state / location', 'Multiple locations', 'Online / location not settled', "I'm not sure"] },
+  { key: 'existingEntity', label: 'Existing entity', prompt: 'Does an entity already exist?', options: ['No, this is new', 'Yes, an entity exists', 'Not sure'] },
+];
+const fssaiQuestions: Question[] = [
+  { key: 'foodBusiness', label: 'Food business', prompt: 'What is the nature of the food business?', options: ['Manufacturing or processing', 'Restaurant, catering or food service', 'Retail, distribution or sale', 'Home-based or temporary activity', "I'm not sure"] },
+  { key: 'location', label: 'Operating location', prompt: 'Where will the food activity operate?', options: ['One state / location', 'Multiple states', 'Online / location not settled', "I'm not sure"] },
+  { key: 'footprint', label: 'Operating footprint', prompt: 'What best describes the operating footprint?', options: ['Single premises', 'Multiple premises', 'Mobile, temporary or shared premises', "I'm not sure"] },
+  { key: 'turnover', label: 'Turnover band', prompt: 'What is the approximate annual turnover band?', help: 'A factual range only. Turnover alone does not determine licence classification or eligibility.', options: ['Not started / no turnover yet', 'Below a lower band', 'Within a middle band', 'Above a higher band', "I'm not sure"] },
+  { key: 'entity', label: 'Business status', prompt: 'What is the current business or entity status?', options: ['Not started yet', 'Operating as an individual', 'An entity already exists', 'Not sure'] },
+  { key: 'currentLicence', label: 'Existing FSSAI status', prompt: 'Does the business already hold an FSSAI registration or licence?', options: ['No, not yet', 'Yes, current details are available', 'Yes, but details need review', "I'm not sure"] },
+];
+
+export function ProgressiveConsultation({ mode = 'gst' }: { mode?: 'gst' | 'company' | 'fssai' }) {
+  const company = mode === 'company';
+  const fssai = mode === 'fssai';
+  const activeQuestions = company ? formationQuestions : fssai ? fssaiQuestions : questions;
+  const [answers, setAnswers] = useState<RegistrationAnswers | FormationAnswers | FssaiAnswers>({});
+  const [step, setStep] = useState(0);
+  const [saved, setSaved] = useState(false);
+  const [notice, setNotice] = useState('');
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const total = activeQuestions.length + 1;
+  const complete = step >= total;
+  const brief = useMemo(() => company ? buildFormationBrief(answers as FormationAnswers) : fssai ? buildFssaiBrief(answers as FssaiAnswers) : buildRegistrationBrief(answers as RegistrationAnswers), [answers, company, fssai]);
+
+  useEffect(() => {
+    try {
+      const key = company ? 'gstpixel-company-registration-brief-v1' : fssai ? 'gstpixel-fssai-brief-v1' : storageKey;
+      const stored = localStorage.getItem(key);
+      if (stored) setAnswers(JSON.parse(stored) as RegistrationAnswers | FormationAnswers | FssaiAnswers);
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    titleRef.current?.focus();
+    try {
+      const key = company ? 'gstpixel-company-registration-brief-v1' : fssai ? 'gstpixel-fssai-brief-v1' : storageKey;
+      localStorage.setItem(key, JSON.stringify(answers));
+      setSaved(true);
+    } catch {}
+  }, [answers, step]);
+
+  function choose(value: string) {
+    const key = activeQuestions[step]?.key as keyof (RegistrationAnswers & FormationAnswers) | undefined;
+    if (key) {
+      setAnswers((current) => ({ ...current, [key]: value }));
+      setNotice('');
+      setStep((current) => current + 1);
+    }
+  }
+
+  function chooseReadiness(value: 'ready' | 'help') {
+    setAnswers((current) => ({ ...current, readiness: value }));
+    setStep(total);
+  }
+
+  function reset() {
+    setAnswers({});
+    setStep(0);
+    setNotice('Your local draft was cleared.');
+    try { localStorage.removeItem(company ? 'gstpixel-company-registration-brief-v1' : fssai ? 'gstpixel-fssai-brief-v1' : storageKey); } catch {}
+  }
+
+  return <section className={s.workspace} aria-labelledby="registration-workspace-title">
+    <aside className={s.context}>
+      <span className="eyebrow">Progressive consultation</span>
+      <h2 id="registration-workspace-title">Build a<br /><em>{company ? 'formation brief.' : fssai ? 'food brief.' : 'registration brief.'}</em></h2>
+      <p>{company ? 'Six factual questions and a readiness check to prepare a business-formation conversation.' : fssai ? 'Six factual questions and a readiness check to prepare a food-licence conversation.' : 'Five focused questions, followed by a readiness check. Your answers stay in this browser and are used to shape a discussion brief.'}</p>
+      <div className={s.contextNote}><Icon name="shield" /><strong>Preliminary requirements brief</strong><span>Not a statutory determination, application or approval promise.</span></div>
+      <div className={s.contactSnippet}><span className="eyebrow">Human review</span><p>When you are ready, discuss the brief with Ashis Gurung, Business Consultant.</p><ConsultButton topic={company ? 'your business formation brief' : fssai ? 'your FSSAI requirements brief' : 'your GST registration brief'}>Request consultation</ConsultButton></div>
+      <Link className={s.backLink} href="/services">← Back to services</Link>
+    </aside>
+    <div className={s.activePane}>
+      <div className={s.paneTop}><span>{complete ? 'Brief compiled' : `0${Math.min(step + 1, total)} / 0${total}`}</span><span>{saved ? 'Saved locally' : 'Browser only'}</span></div>
+      <div className={s.progress}><span style={{ width: `${complete ? 100 : (step / total) * 100}%` }} /></div>
+      {!complete && step < activeQuestions.length && <div className={s.questionPane}>
+        <span className={s.questionLabel}>{activeQuestions[step].label}</span>
+        <h3 tabIndex={-1} ref={titleRef}>{activeQuestions[step].prompt}</h3>
+        {activeQuestions[step].help && <p className={s.help}>{activeQuestions[step].help}</p>}
+        <div className={s.optionList} role="group" aria-label={activeQuestions[step].prompt}>
+          {activeQuestions[step].options.map((option) => <button type="button" key={option} className={s.option} onClick={() => choose(option)}>{option}<Arrow /></button>)}
+        </div>
+        {step > 0 && <button type="button" className={s.backButton} onClick={() => setStep((current) => current - 1)}>← Previous question</button>}
+      </div>}
+      {!complete && step === activeQuestions.length && <div className={s.questionPane}>
+        <span className={s.questionLabel}>Document readiness</span>
+        <h3 tabIndex={-1} ref={titleRef}>How ready are the basic details?</h3>
+        <p className={s.help}>This is a readiness check only. Do not upload Aadhaar, PAN scans, bank statements or other sensitive documents here.</p>
+        <div className={s.readiness}><button type="button" className={s.option} onClick={() => chooseReadiness('ready')}>I have these ready <Arrow /></button><button type="button" className={s.option} onClick={() => chooseReadiness('help')}>I need help preparing them <Arrow /></button></div>
+        <button type="button" className={s.backButton} onClick={() => setStep((current) => current - 1)}>← Previous question</button>
+      </div>}
+      {complete && <BriefSummary brief={brief} company={company} fssai={fssai} onReset={reset} />}
+      <div className={s.live} aria-live="polite">{notice || (complete ? 'Brief ready for professional review.' : `Step ${Math.min(step + 1, total)} of ${total}`)}</div>
+    </div>
+  </section>;
+}
+
+function BriefSummary({ brief, company, fssai, onReset }: { brief: RegistrationBrief | FormationBrief | FssaiBrief; company: boolean; fssai: boolean; onReset: () => void }) {
+  const formation = company ? brief as FormationBrief : null;
+  return <div className={s.summary} aria-labelledby="brief-summary-title">
+    <span className="eyebrow">{company ? 'Business formation brief' : fssai ? 'FSSAI / food licence brief' : 'Registration brief'} / Review</span>
+    <h3 id="brief-summary-title">A clear starting point.<br /><em>{company ? 'Not an incorporation.' : fssai ? 'Not a licence decision.' : 'Not a filing.'}</em></h3>
+    <p className={s.summaryLead}>Your answers are organized below for a professional conversation. No structure, classification, eligibility or filing outcome is assumed.</p>
+    <div className={s.summaryGrid}><div><h4>Information supplied</h4><dl>{brief.answers.map((item) => <div key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl></div><div>{formation && <><h4>Structures to discuss</h4><ul>{formation.structures.map((item) => <li key={item}>{item}</li>)}</ul></>}<h4>Likely next steps</h4><ol>{brief.nextSteps.map((step) => <li key={step}>{step}</li>)}</ol><h4>Professional review required</h4><ul>{brief.reviewItems.map((item) => <li key={item}>{item}</li>)}</ul></div></div>
+    <div className={s.summaryActions}><ConsultButton primary topic={company ? 'your business formation brief' : fssai ? 'your FSSAI requirements brief' : 'your GST registration brief'}>Request professional review</ConsultButton>{!company && !fssai && <ButtonLink href="/tools/gst-calculator">Open GST calculator</ButtonLink>}<button type="button" className={s.reset} onClick={onReset}>Start a new brief</button></div>
+    {brief.uncertain.length > 0 && <p className={s.uncertain}>Needs clarification: {brief.uncertain.join(' · ')}</p>}
+  </div>;
+}

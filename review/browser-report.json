@@ -1,6 +1,6 @@
 {
-  "date": "2026-09-14T16:35:02.692Z",
-  "origin": "http://127.0.0.1:3000",
+  "date": "2026-09-15T05:45:51.632Z",
+  "origin": "http://127.0.0.1:3011",
   "routes": [
     {
       "route": "/",
@@ -158,12 +158,301 @@
         "passes": 22,
         "violations": [],
         "incomplete": [
+          "aria-valid-attr-value",
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services/gst-registration",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services/gst-return-filing",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
           "color-contrast"
         ]
       }
     },
     {
       "route": "/services/fssai",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services/trade-license",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services/udyam-msme",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services/proprietorship-registration",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services/partnership-registration",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services/llp-registration",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services/company-registration",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/services/business-support",
       "sizes": [
         {
           "width": 320,
@@ -291,7 +580,7 @@
       }
     },
     {
-      "route": "/services/business-support",
+      "route": "/start-business",
       "sizes": [
         {
           "width": 320,
@@ -323,7 +612,71 @@
       }
     },
     {
-      "route": "/start-business",
+      "route": "/digital-studio",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 22,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/about",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 22,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/contact",
       "sizes": [
         {
           "width": 320,
@@ -353,11 +706,87 @@
           "color-contrast"
         ]
       }
+    },
+    {
+      "route": "/tools/profit-margin",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 27,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/tools/break-even",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 27,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
     }
   ],
   "interactions": [
     "GST exclusive/inclusive/split/IGST/invalid-rate/reset/keyboard submit passed",
+    "Profit/margin/markup calculation and rounding passed",
+    "Break-even whole-unit and contribution calculation passed",
     "Tools categories/search/empty state/reset passed",
+    "GST registration workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
+    "GST return filing workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
+    "FSSAI workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
+    "Trade licence workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
+    "Udyam/MSME workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
+    "Proprietorship workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
+    "Partnership workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
+    "LLP workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
+    "Company registration workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
+    "Business support workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
     "Mobile menu open/close/Escape/focus return/route close passed",
     "Native consultation dialog focus/trap/Escape passed",
     "Studio concept switch and FAQ disclosure passed",
