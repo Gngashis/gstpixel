@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-15T14:53:25.086Z",
+  "date": "2026-11-15T15:06:09.834Z",
   "origin": "http://127.0.0.1:3000",
   "routes": [
     {
@@ -829,6 +829,70 @@
       ],
       "audit": {
         "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/privacy",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 22,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/terms",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 22,
         "violations": [],
         "incomplete": [
           "color-contrast"

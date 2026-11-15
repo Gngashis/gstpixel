@@ -106,10 +106,48 @@ class AuthService {
     return this.currentUser;
   }
 
-  public loginAsDemoUser(demoKey: keyof typeof DEMO_USERS) {
+  public async syncWithServer(): Promise<UserProfile> {
+    if (typeof window !== 'undefined') {
+      try {
+        const res = await fetch('/api/auth/me', {
+          headers: { Authorization: `Bearer ${this.currentUser.id}` },
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.user) {
+            this.currentUser = {
+              ...this.currentUser,
+              ...data.user,
+              quota: {
+                monthlyLimit: data.user.monthlyLimit || this.currentUser.quota.monthlyLimit,
+                usedThisMonth: data.user.usedThisMonth || this.currentUser.quota.usedThisMonth,
+                resetDate: data.user.resetDate || this.currentUser.quota.resetDate,
+              },
+            };
+            this.persistSession();
+          }
+        }
+      } catch {
+        // Fallback to local session
+      }
+    }
+    return this.currentUser;
+  }
+
+  public async loginAsDemoUser(demoKey: keyof typeof DEMO_USERS) {
     if (DEMO_USERS[demoKey]) {
       this.currentUser = { ...DEMO_USERS[demoKey] };
       this.persistSession();
+
+      if (typeof window !== 'undefined') {
+        try {
+          await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ demoUser: demoKey }),
+          });
+        } catch {}
+      }
     }
   }
 

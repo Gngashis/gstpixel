@@ -100,6 +100,11 @@ export function InvoiceManager() {
     const unsubStorage = invoiceStorageRepository.subscribe(() => {
       setInvoices(invoiceStorageRepository.getAllInvoices());
     });
+
+    // Synchronize with server edge database
+    authService.syncWithServer().catch(() => {});
+    invoiceStorageRepository.syncWithServer(currentUser.id).catch(() => {});
+
     return () => {
       unsubAuth();
       unsubStorage();

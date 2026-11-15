@@ -45,6 +45,8 @@ const routes=['/','/services/gst','/tools','/tools/gst-calculator',...(expanded?
  '/tools/break-even',
  '/tools/invoice-audit',
  '/pricing',
+ '/privacy',
+ '/terms',
 ]:[])];
 const report={date:new Date().toISOString(),origin,routes:[],interactions:[],errors:[]};
 
@@ -63,6 +65,8 @@ async function checkProgressiveWorkflow(page,{route,storageKey,label}) {
  await back.click();
  assert.equal(await prompt.innerText(),firstPrompt,`${label} Back returns to the previous question`);
  await workspace.getByRole('group').getByRole('button').first().click();
+ await workspace.getByRole('heading',{name:secondPrompt,exact:true}).waitFor();
+ await page.waitForTimeout(50);
  assert.ok(await page.evaluate((key)=>localStorage.getItem(key)!==null,storageKey),`${label} uses ${storageKey}`);
  await page.reload();
  await workspace.waitFor();

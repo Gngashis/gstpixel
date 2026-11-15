@@ -114,6 +114,26 @@ class InvoiceStorageRepository {
     return result.sort((a, b) => new Date(b.auditedAt).getTime() - new Date(a.auditedAt).getTime());
   }
 
+  public async syncWithServer(userId?: string): Promise<StoredInvoiceRecord[]> {
+    if (typeof window !== 'undefined') {
+      try {
+        const res = await fetch('/api/invoices', {
+          headers: userId ? { Authorization: `Bearer ${userId}` } : {},
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && Array.isArray(data.invoices) && data.invoices.length > 0) {
+            this.invoices = data.invoices;
+            this.persist();
+          }
+        }
+      } catch {
+        // Fallback to local storage
+      }
+    }
+    return [...this.invoices];
+  }
+
   public addInvoice(record: Omit<StoredInvoiceRecord, 'id' | 'auditedAt'>): StoredInvoiceRecord {
     const newRecord: StoredInvoiceRecord = {
       ...record,
@@ -133,6 +153,18 @@ class InvoiceStorageRepository {
     }
 
     this.persist();
+
+    // Asynchronously synchronize with server database
+    if (typeof window !== 'undefined') {
+      try {
+        fetch('/api/invoices', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newRecord),
+        }).catch(() => {});
+      } catch {}
+    }
+
     return newRecord;
   }
 
@@ -141,6 +173,16 @@ class InvoiceStorageRepository {
     this.invoices = this.invoices.filter((inv) => inv.id !== id);
     if (this.invoices.length !== initialLength) {
       this.persist();
+
+      // Asynchronously delete from server database
+      if (typeof window !== 'undefined') {
+        try {
+          fetch(`/api/invoices?id=${encodeURIComponent(id)}`, {
+            method: 'DELETE',
+          }).catch(() => {});
+        } catch {}
+      }
+
       return true;
     }
     return false;
