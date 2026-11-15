@@ -19,6 +19,47 @@ function withSecurityHeaders(response) {
 
 export default {
   async fetch(request, env) {
+    const url = new URL(request.url);
+
+    // Edge API Route Handling
+    if (url.pathname === '/api/health') {
+      return withSecurityHeaders(
+        new Response(
+          JSON.stringify({
+            status: 'ok',
+            service: 'GSTPIXEL Compliance Engine',
+            version: '1.0.0-phase10',
+            timestamp: new Date().toISOString(),
+          }),
+          {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+          }
+        )
+      );
+    }
+
+    if (url.pathname === '/api/billing/plans') {
+      return withSecurityHeaders(
+        new Response(
+          JSON.stringify({
+            status: 'success',
+            currency: 'INR',
+            plans: [
+              { id: 'community', name: 'Community Free', priceInr: 0, limit: 5 },
+              { id: 'starter', name: 'Starter AI', priceInr: 499, limit: 100 },
+              { id: 'pro', name: 'Business Pro', priceInr: 1499, limit: 500 },
+              { id: 'enterprise', name: 'Enterprise', priceInr: 3999, limit: 2500 },
+            ],
+          }),
+          {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+          }
+        )
+      );
+    }
+
     const response = withSecurityHeaders(await env.ASSETS.fetch(request));
 
     if (response.status !== 404 || !['GET', 'HEAD'].includes(request.method)) {

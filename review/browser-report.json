@@ -1,6 +1,6 @@
 {
-  "date": "2026-09-15T05:45:51.632Z",
-  "origin": "http://127.0.0.1:3011",
+  "date": "2026-11-15T14:53:25.086Z",
+  "origin": "http://127.0.0.1:3000",
   "routes": [
     {
       "route": "/",
@@ -770,12 +770,77 @@
           "color-contrast"
         ]
       }
+    },
+    {
+      "route": "/tools/invoice-audit",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 26,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "route": "/pricing",
+      "sizes": [
+        {
+          "width": 320,
+          "client": 320,
+          "scroll": 320
+        },
+        {
+          "width": 390,
+          "client": 390,
+          "scroll": 390
+        },
+        {
+          "width": 768,
+          "client": 768,
+          "scroll": 768
+        },
+        {
+          "width": 1440,
+          "client": 1440,
+          "scroll": 1440
+        }
+      ],
+      "audit": {
+        "passes": 24,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
     }
   ],
   "interactions": [
     "GST exclusive/inclusive/split/IGST/invalid-rate/reset/keyboard submit passed",
     "Profit/margin/markup calculation and rounding passed",
     "Break-even whole-unit and contribution calculation passed",
+    "Invoice Auditor sample loading, tax head audit, and reset passed",
     "Tools categories/search/empty state/reset passed",
     "GST registration workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",
     "GST return filing workflow progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed",

@@ -1,7 +1,24 @@
 import { chromium } from 'playwright';
 import { createRequire } from 'node:module';
 import { mkdir, writeFile } from 'node:fs/promises';
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
 import assert from 'node:assert/strict';
+
+function resolveChromiumExecutable() {
+  if (process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH) return process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH;
+  const cacheDir = path.join(os.homedir(), 'Library', 'Caches', 'ms-playwright');
+  const candidates = [
+    path.join(cacheDir, 'chromium_headless_shell-1255', 'chrome-headless-shell-mac-arm64', 'chrome-headless-shell'),
+    path.join(cacheDir, 'chromium_headless_shell-1254', 'chrome-headless-shell-mac-arm64', 'chrome-headless-shell'),
+    path.join(cacheDir, 'chromium_headless_shell-1223', 'chrome-headless-shell-mac-arm64', 'chrome-headless-shell'),
+  ];
+  for (const c of candidates) {
+    if (fs.existsSync(c)) return c;
+  }
+  return undefined;
+}
 const require=createRequire(import.meta.url);
 const origin=process.env.GSTPIXEL_URL||'http://127.0.0.1:3000';
 const expanded=process.argv.includes('--expanded');
@@ -26,6 +43,8 @@ const routes=['/','/services/gst','/tools','/tools/gst-calculator',...(expanded?
  '/contact',
  '/tools/profit-margin',
  '/tools/break-even',
+ '/tools/invoice-audit',
+ '/pricing',
 ]:[])];
 const report={date:new Date().toISOString(),origin,routes:[],interactions:[],errors:[]};
 
@@ -64,7 +83,7 @@ async function checkProgressiveWorkflow(page,{route,storageKey,label}) {
  report.interactions.push(`${label} progression/Back/local resume/completion/dedicated storage/reset/professional-review CTA passed`);
 }
 await mkdir('review',{recursive:true});
-const browser=await chromium.launch({headless:true});
+const browser=await chromium.launch({headless:true, executablePath: resolveChromiumExecutable()});
 try {
  const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
  const page=await context.newPage();page.on('pageerror',error=>report.errors.push(error.message));
@@ -120,10 +139,23 @@ try {
  assert.equal(await page.getByTestId('break-even-result').innerText(),'50 units');
  assert.equal(await page.getByTestId('contribution-result').innerText(),'₹200.00');
  report.interactions.push('Break-even whole-unit and contribution calculation passed');
+
+ await page.goto(origin+'/tools/invoice-audit');
+ await page.getByRole('button',{name:'Tax Head Error (IGST)'}).click();
+ await page.getByRole('button',{name:'Audit Invoice'}).click();
+ await page.getByText('✕ STATUTORY ISSUES FLAGGED').waitFor();
+ await page.getByRole('button',{name:'Valid Intra-State'}).click();
+ await page.getByRole('button',{name:'Audit Invoice'}).click();
+ await page.getByText('✓ STATUTORY COMPLIANT').waitFor();
+ await page.getByRole('button',{name:'Clear Text'}).click();
+ assert.equal(await page.locator('#invoice-text').inputValue(),'');
+ report.interactions.push('Invoice Auditor sample loading, tax head audit, and reset passed');
+
  await page.goto(origin+'/tools');await page.getByRole('button',{name:'Digital',exact:true}).click();
  assert.equal(await page.getByRole('heading',{name:'GST Calculator',exact:true}).count(),0);
  await page.getByRole('searchbox',{name:'Search tools'}).fill('zzzz');await page.getByRole('heading',{name:'No tools match your search.'}).waitFor();
  await page.getByRole('button',{name:'Clear filters'}).click();await page.getByRole('link',{name:/GST Calculator/}).waitFor();
+ await page.getByRole('link',{name:/Invoice & Compliance Auditor/}).waitFor();
  await page.getByRole('link',{name:/Profit & Margin Calculator/}).waitFor();
  await page.getByRole('link',{name:/Break-even Calculator/}).waitFor();
  report.interactions.push('Tools categories/search/empty state/reset passed');
@@ -140,7 +172,7 @@ try {
  await page.setViewportSize({width:390,height:844});await page.goto(origin+'/');
  const menu=page.getByRole('button',{name:'Menu',exact:true});await menu.click();assert.equal(await page.getByRole('button',{name:'Close',exact:true}).getAttribute('aria-expanded'),'true');
  await page.keyboard.press('Escape');assert.equal(await menu.getAttribute('aria-expanded'),'false');assert.equal(await menu.evaluate(el=>document.activeElement===el),true);
- await menu.click();await page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'Tools',exact:true}).click();await page.waitForURL(origin+'/tools');assert.equal(await menu.getAttribute('aria-expanded'),'false');
+ await menu.click();await page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'Tools',exact:true}).click();await page.waitForURL(url=>url.pathname==='/tools'||url.pathname==='/tools/');assert.equal(await menu.getAttribute('aria-expanded'),'false');
  report.interactions.push('Mobile menu open/close/Escape/focus return/route close passed');
  await page.goto(origin+'/');await page.getByRole('button',{name:'Get consultation',exact:true}).last().click();
  const dialog=page.getByRole('dialog');await dialog.waitFor();assert.equal(await page.evaluate(()=>document.activeElement.getAttribute('aria-label')),'Close consultation details');

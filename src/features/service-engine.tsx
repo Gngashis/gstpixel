@@ -148,13 +148,15 @@ export function ProgressiveConsultation({ mode = 'gst' }: { mode?: ServiceMode }
       const stored = localStorage.getItem(config.storageKey);
       if (stored) {
         const parsed = JSON.parse(stored) as unknown;
-        if (!parsed || typeof parsed !== 'object') throw new Error('Invalid local draft');
+        if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('Invalid local draft');
         const storedRecord = parsed as Record<string, unknown>;
-        const restoredAnswers = storedRecord.answers && typeof storedRecord.answers === 'object'
+        const rawAnswers = storedRecord.answers && typeof storedRecord.answers === 'object' && !Array.isArray(storedRecord.answers)
           ? storedRecord.answers as WorkflowAnswers
-          : storedRecord as WorkflowAnswers;
-        const storedStep = typeof storedRecord.step === 'number' ? storedRecord.step : restoredStep(restoredAnswers, config);
-        setAnswers(restoredAnswers);
+          : (!Array.isArray(storedRecord) ? storedRecord as WorkflowAnswers : {});
+        const storedStep = typeof storedRecord.step === 'number' && Number.isFinite(storedRecord.step)
+          ? Math.floor(storedRecord.step)
+          : restoredStep(rawAnswers, config);
+        setAnswers(rawAnswers);
         setStep(Math.max(0, Math.min(storedStep, total)));
         setSaved(true);
       }

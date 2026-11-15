@@ -27,24 +27,25 @@ export type GstReturnFilingAnswers = {
 
 export type GstReturnFilingBrief = RegistrationBrief;
 
-export function buildRegistrationBrief(answers: RegistrationAnswers): RegistrationBrief {
+export function buildRegistrationBrief(answers: RegistrationAnswers = {}): RegistrationBrief {
+  const safe = answers ?? {};
   const fields = [
-    ['Primary business activity', answers.activity],
-    ['Customer supply footprint', answers.supply],
-    ['Approximate annual turnover range', answers.turnover],
-    ['Current business structure', answers.structure],
-    ['Clarification', answers.clarification],
+    ['Primary business activity', safe.activity],
+    ['Customer supply footprint', safe.supply],
+    ['Approximate annual turnover range', safe.turnover],
+    ['Current business structure', safe.structure],
+    ['Clarification', safe.clarification],
   ] as const;
   const labels = fields.map(([label, value]) => ({ label, value: value || 'Not answered' }));
   const uncertain: string[] = labels.filter(({ value }) => /not sure|not answered|need help/i.test(value)).map(({ label }) => label);
-  if (answers.readiness === 'help') uncertain.push('Document readiness');
+  if (safe.readiness === 'help') uncertain.push('Document readiness');
   return {
     answers: labels,
     uncertain,
     nextSteps: [
       'Review the answers and confirm the business context.',
       'Verify the applicable GST registration requirement before filing.',
-      answers.readiness === 'help' ? 'Discuss the readiness checklist and what may need to be prepared.' : 'Keep the readiness checklist available for professional review.',
+      safe.readiness === 'help' ? 'Discuss the readiness checklist and what may need to be prepared.' : 'Keep the readiness checklist available for professional review.',
     ],
     reviewItems: [
       'Thresholds, notifications, exemptions and compulsory-registration exceptions may affect the requirement.',
@@ -54,16 +55,17 @@ export function buildRegistrationBrief(answers: RegistrationAnswers): Registrati
   };
 }
 
-export function buildGstReturnFilingBrief(answers: GstReturnFilingAnswers): GstReturnFilingBrief {
+export function buildGstReturnFilingBrief(answers: GstReturnFilingAnswers = {}): GstReturnFilingBrief {
+  const safe = answers ?? {};
   const fields = [
-    ['Filing period', answers.filingPeriod],
-    ['User-stated filing frequency', answers.frequency],
-    ['Primary business activity', answers.businessActivity],
-    ['Main sales context', answers.salesType],
-    ['Purchase-record readiness', answers.purchaseRecords],
-    ['Sales-record readiness', answers.salesRecords],
-    ['User-stated Nil return expectation', answers.nilReturnExpectation],
-    ['Clarification requested', answers.clarification],
+    ['Filing period', safe.filingPeriod],
+    ['User-stated filing frequency', safe.frequency],
+    ['Primary business activity', safe.businessActivity],
+    ['Main sales context', safe.salesType],
+    ['Purchase-record readiness', safe.purchaseRecords],
+    ['Sales-record readiness', safe.salesRecords],
+    ['User-stated Nil return expectation', safe.nilReturnExpectation],
+    ['Clarification requested', safe.clarification],
   ] as const;
   const normalized = fields.map(([label, value]) => ({ label, value: value || 'Not answered' }));
   const uncertain = normalized

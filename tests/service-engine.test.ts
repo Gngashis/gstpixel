@@ -42,3 +42,23 @@ test('GST return filing brief flags missing records and defers filing conclusion
   assert.ok(brief.reviewItems.some((item) => item.includes('deadlines')));
   assert.ok(brief.nextSteps.some((item) => item.includes('Verify')));
 });
+
+test('service-engine builders handle null, undefined, and empty objects without throwing', () => {
+  const emptyReg = buildRegistrationBrief(undefined);
+  assert.equal(emptyReg.answers.length, 5);
+  assert.ok(emptyReg.answers.every((a) => a.value === 'Not answered'));
+  assert.equal(emptyReg.uncertain.length, 5);
+
+  // @ts-expect-error runtime boundary check
+  const nullReg = buildRegistrationBrief(null);
+  assert.equal(nullReg.answers.length, 5);
+
+  const emptyFiling = buildGstReturnFilingBrief(undefined);
+  assert.equal(emptyFiling.answers.length, 8);
+  assert.ok(emptyFiling.answers.every((a) => a.value === 'Not answered'));
+  assert.equal(emptyFiling.uncertain.length, 8);
+
+  // @ts-expect-error runtime boundary check
+  const nullFiling = buildGstReturnFilingBrief(null);
+  assert.equal(nullFiling.answers.length, 8);
+});

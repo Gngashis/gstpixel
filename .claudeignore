@@ -1,0 +1,40 @@
+# AI Workstation Workspace Exclusion Rules
+# Prevents broad background indexing, recursive scans, and token-heavy context dumps
+# Excluded files remain directly accessible through targeted file operations
+
+# Dependency trees & package caches
+node_modules/
+.pnp/
+.pnp.js
+.bun-cache/
+.npm/
+
+# Build & compilation outputs
+dist/
+dist-ssr/
+.next/
+out/
+build/
+*.tsbuildinfo
+*.map
+
+# Duplicate worktrees & internal snapshot clones
+.delta/
+.worktrees/
+
+# Internal VCS internals
+.git/objects/
+.git/lfs/
+
+# Heavy media assets (prevent large binary scanning in text contexts)
+video/*.mp4
+video/*.webm
+media/*.mp4
+*.mp4
+*.m4v
+*.mov
+
+# OS & temporary caches
+.DS_Store
+*.tmp
+*.log
