@@ -57,6 +57,9 @@ export default function PrivacyPage() {
               <strong>Algorithmic Validation:</strong> Mathematical cross-checks (e.g. Luhn Mod-36 checksums, tax head allocations, and line-item arithmetic) run securely in sandboxed server environments or client-side execution.
             </p>
             <p>
+              <strong>AI & OCR Processing (OpenRouter & LlamaCloud):</strong> When utilizing automated document parsing or AI statutory reasoning, invoice text is processed via encrypted TLS API connections to LlamaIndex (LlamaCloud v2 for tabular extraction) and OpenRouter (for model inference). These providers operate under zero-retention developer agreements and do not utilize customer tax data to train public foundation models. Standard mathematical audits remain completely offline or edge-processed without external AI transmission.
+            </p>
+            <p>
               <strong>Zero Data Selling:</strong> We never sell, monetize, or license your transaction data, vendor relationships, or financial turnover to third-party advertisers or financial brokers.
             </p>
           </section>
